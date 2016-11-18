@@ -5,13 +5,10 @@ const app = express();
 app.use(cors());
 app.get('/', (req, res) => {
   const text = req.query.fullname;
-  console.log(text);
   const arr = text.toUpperCase().trim().split(/\s+/);
-  console.log(arr);
   const elemsIsCorrect = arr.map((elem) => {
     return /([0-9]|_|\/)+/.test(elem);
   });
-  console.log(elemsIsCorrect);
   if (arr.length>3 || !text || elemsIsCorrect.indexOf(true)>=0) {
     return res.send('Invalid fullname');
   }
