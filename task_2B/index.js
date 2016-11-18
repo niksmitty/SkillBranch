@@ -5,18 +5,21 @@ const app = express();
 app.use(cors());
 app.get('/', (req, res) => {
   const text = req.query.fullname;
-  const arr = text.split(' ');
+  console.log(text);
+  const arr = text.toUpperCase().trim().split(/\s+/);
+  console.log(arr);
   const elemsIsCorrect = arr.map((elem) => {
-  	return /[0-9]+/.test(elem);
+    return /([0-9]|_|\/)+/.test(elem);
   });
+  console.log(elemsIsCorrect);
   if (arr.length>3 || !text || elemsIsCorrect.indexOf(true)>=0) {
-  	return res.send('Invalid fullname');
+    return res.send('Invalid fullname');
   }
   const surname = arr.pop();
   const short_initials = arr.map((elem) => {
-  	return elem.charAt(0)+'.';
+    return elem.charAt(0)+'.';
   }).toString().replace(',', ' ');
-  let result = surname + ' ' + short_initials;
+  let result = surname.charAt(0) + surname.slice(1).toLowerCase() + ' ' + short_initials;
   result = result.replace(/\s$/, '');
   res.send(`${result}`);
 });
